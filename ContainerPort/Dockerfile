@@ -40,8 +40,8 @@ ARG NODE_VERSION=14.17.1
 ARG WATCHMAN_VERSION=4.9.0
 
 # build time args. Pass '--build-args key=value' to set when running the build command.
-ARG user
-ARG build_version
+ARG user=user
+ARG build_version=30
 
 # default env variables
 ENV DEBIAN_FRONTEND=noninteractive

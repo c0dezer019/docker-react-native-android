@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:20.10
 
 LABEL maintainer="c0dezer019"
 LABEL description="Provides a base environment to run react-native environment for Android."

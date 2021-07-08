@@ -44,12 +44,14 @@ ARG user=user
 ARG build_version=30
 
 # default env variables
-ENV DEBIAN_FRONTEND=noninteractive
 ENV ADB_INSTALL_TIMEOUT=10
-ENV PATH=${PATH}:/opt/buck/bin/
 ENV ANDROID_HOME=/opt/android/sdk
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DOCKER_BUILDKIT=0
+ENV COMPOSE_DOCKER_CLI_BUILD=0
+ENV PATH=${PATH}:/opt/buck/bin/
 ENV PATH=${PATH}:${ANDROID_NDK}
 
 # only run if user is provided.

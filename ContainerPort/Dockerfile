@@ -78,6 +78,7 @@ RUN apt-get update && \
     qtdeclarative5-dev \
     unzip \
     apt-utils \
+    gpgv2 \
     -y
 
 RUN ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime && \

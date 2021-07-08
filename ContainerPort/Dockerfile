@@ -58,7 +58,8 @@ ENV PATH=${PATH}:${ANDROID_NDK}
 RUN useradd -ms /bin/bash ${user}
 
 # system dependencies
-RUN apt-get update && \ 
+RUN apt-get update && \
+    apt-get install gpgv2 && \
     apt-get install \
     ant \
     autoconf \

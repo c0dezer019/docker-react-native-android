@@ -29,14 +29,19 @@ LABEL description="Provides a base environment to run react-native environment f
 # in the ContainerShip directory.
 
 # build arguments
+ARG ANDROID_EMULATOR=emulator-linux_x64-7453540.zip
+ARG CMDLINE_TOOLS=commandlinetools-linux-7006259_latest.zip
 ARG PLATFORM_TOOLS=platform-tools_r31.0.2-linux.zip
 ARG SDKTOOLS=sdk-tools-linux-4333796.zip
-ARG BUILD_VERSION=30
 ARG TOOLS_VERSION=30.0.3
 ARG BUCK_VERSION=v2021.01.12.01
 ARG NDK_VERSION=android-ndk-r22b-linux-x86_64.zip
 ARG NODE_VERSION=14.17.1
 ARG WATCHMAN_VERSION=4.9.0
+
+# build time args. Pass '--build-args key=value' to set when running the build command.
+ARG user
+ARG build_version
 
 # default env variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -46,6 +51,9 @@ ENV ANDROID_HOME=/opt/android/sdk
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
+
+# only run if user is provided.
+RUN useradd -ms /bin/bash ${user}
 
 # system dependencies
 RUN apt-get update && \ 
@@ -80,33 +88,39 @@ RUN npm config set spin=false && \
     npm config set progress=false
 
 # android stuff
-RUN mkdir -p /opt/android/sdk && \
-    cd /opt/android/sdk && \
-    curl --silent https://dl.google.com/android/repository/${SDKTOOLS} > android.zip && \
+RUN mkdir -p /opt/android/sdk
+
+WORKDIR /opt/android/sdk
+
+RUN curl --silent https://dl.google.com/android/repository/${SDKTOOLS} > android.zip && \
     unzip -q android.zip && \
     rm android.zip
 
 ENV PATH=/opt/android/sdk/tools/bin:$PATH
 
+RUN curl --silent https://dl.google.com/android/repository/${CMDLINE_TOOLS} > cmdline-tools.zip && \
+    unzip -q cmdline-tools.zip && \
+    rm cmdline-tools.zip
+
+ENV PATH=/opt/android/sdk/cmdline-tools/latest/bin:$PATH
+
 RUN mkdir -p /opt/android/sdk/.android && touch /opt/android/sdk/.android/repositories.cfg
 
-# platform tools
-RUN curl --silent https://dl.google.com/android/repository/${PLATFORM_TOOLS} > platform-tools.zip && \
-    unzip -q platform-tools.zip && \
-    rm platform-tools.zip
-
-ENV PATH=/opt/android/platform-tools/bin:$PATH
-
 # ndk
-RUN mkdir /opt/ndk && \
-    cd /opt/ndk && \
-    curl --silent https://dl.google.com/android/repository/${NDK_VERSION} > ndk.zip && \
+RUN mkdir /opt/ndk
+WORKDIR /opt/ndk
+
+RUN curl --silent https://dl.google.com/android/repository/${NDK_VERSION} > ndk.zip && \
     unzip -q ndk.zip && \
     rm ndk.zip
 
+WORKDIR /
+
 # adding android SDK tools
-RUN sdkmanager "system-images;android-18;google_apis;armeabi-v7a" \
-    "platforms;android-$BUILD_VERSION" \
+RUN yes | sdkmanager --licenses && yes | sdkmanager "system-images;android-18;google_apis;armeabi-v7a" \
+    "platforms;android-$build_version" \
+    "platform-tools" \
+    "emulator" \
     "build-tools;$TOOLS_VERSION" \
     "add-ons;addon-google_apis-google-23" \
     "extras;android;m2repository"

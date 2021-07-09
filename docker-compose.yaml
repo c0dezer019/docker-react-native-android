@@ -3,10 +3,10 @@ services:
         build:
             context: ./ContainerPort
             labels:
-                com.c0dezer0-apps.description: "Provides a base environment to run react-native environment for Android."
-                com.c0dezer0-apps.maintainer: "c0dezer019"
-                com.c0dezer0-apps.github_repo: "https://github.com/c0dezer0-apps/react-native-android-base"
-                com.c0dezer0-apps.bitbucket_repo: "https://bitbucket.org/c0dezer02/react-native-android-base"
+                - "com.c0dezer0-apps.description=Provides a base environment to run react-native environment for Android."
+                - "com.c0c0dezer0-apps.maintainer=c0dezer019"
+                - "com.c0dezer0-apps.github_repo=https://github.com/c0dezer0-apps/react-native-android-base"
+                - "com.c0dezer0-apps.bitbucket_repo=https://bitbucket.org/c0dezer02/react-native-android-base"
             network: host
         image: react-native-android-base:testing
         ports:

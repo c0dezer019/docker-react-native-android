@@ -1,8 +1,0 @@
-services:
-    react-native-android:
-        build: .
-        ports:
-            - "3001:3001"
-        volumes:
-            - .:/code
-        

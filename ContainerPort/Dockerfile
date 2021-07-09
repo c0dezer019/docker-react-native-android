@@ -83,6 +83,7 @@ RUN apt-get update && \
     apt-utils \
     gpgv2 \
     tzdata \
+    vim \
     -y
 
 RUN ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime && \

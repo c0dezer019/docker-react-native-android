@@ -137,4 +137,4 @@ ENV PATH=/opt/android/sdk/platform-tools/bin:$PATH
 RUN rm -rf /opt/android/system-images/android-19/default/x86
 
 # For persisting data across containers
-VOLUME system_storage
+VOLUME /system_data

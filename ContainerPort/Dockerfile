@@ -1,7 +1,6 @@
 FROM ubuntu:20.10
 
 LABEL maintainer="c0dezer019"
-LABEL description="Provides a base environment to run react-native environment for Android."
 
 # MIT License
 
@@ -138,4 +137,4 @@ ENV PATH=/opt/android/sdk/platform-tools/bin:$PATH
 RUN rm -rf /opt/android/system-images/android-19/default/x86
 
 # For persisting data across containers
-VOLUME /storage
+VOLUME system_storage

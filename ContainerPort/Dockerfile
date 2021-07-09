@@ -130,5 +130,7 @@ RUN yes | sdkmanager --licenses && yes | sdkmanager "system-images;android-18;go
     "add-ons;addon-google_apis-google-23" \
     "extras;android;m2repository"
 
+ENV PATH=/opt/android/sdk/platform-tools/bin:$PATH
+
 # clean up
 RUN rm -rf /opt/android/system-images/android-19/default/x86
